@@ -24,38 +24,38 @@ class WC_Fawry_Gateway extends WC_Payment_Gateway
     $this->has_fields = true; // in case you need a custom credit card form
     $this->method_title = __('Fawry Payment Gateway', 'fawry');
     $this->method_description = __('Pay for your Order with any Credit or Debit Card or through Fawry Machines', 'fawry'); // will be displayed on the options page
-
+    $this->description = $this->get_option('description', __('Pay for your Order with any Credit or Debit Card or through Fawry Machines', 'fawry'));
+    
     // gateways can support subscriptions, refunds, saved payment methods,
     // but in this tutorial we begin with simple payments
     $this->supports = array(
       'products'
     );
-
+    
     // Method with all the options fields
     $this->init_form_fields();
-
+    
     // Load the settings.
     $this->init_settings();
-
+    
     $this->title = $this->get_option('title');
-    $this->description = $this->get_option('description');
     $this->enabled = $this->get_option('enabled');
     $this->testmode = 'yes' === $this->get_option('testmode');
     $this->merchant_key = $this->get_option('merchant_key');
     $this->secret_key = $this->get_option('secret_key');
     $this->expiry = $this->get_option('expiry');
     $this->language = $this->get_option('language');
-
+    $this->instructions = $this->get_option( 'instructions', $this->description );
+    
     // This action hook saves the settings
     add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-
+    
     // We need custom JavaScript to obtain a token
     add_action('wp_enqueue_scripts', array($this, 'payment_scripts'));
 
     // You can also register a webhook here
     add_action('woocommerce_api_fawry-payment-success', array($this, 'success_webhook'));
     add_action('woocommerce_api_fawry-payment-failed', array($this, 'failed_webhook'));
-
   }
 
   /**
@@ -90,6 +90,12 @@ class WC_Fawry_Gateway extends WC_Payment_Gateway
         'type'        => 'textarea',
         'description' => __('This controls the description which the user sees during checkout.', 'fawry'),
         'default'     => __('Pay for your Order with any Credit or Debit Card or through Fawry Machines.', 'fawry'),
+      ),
+      'instructions' => array(
+        'title'       => 'Instructions',
+        'type'        => 'textarea',
+        'description' => __('This controls the instructions which the user sees during checkout.', 'fawry'),
+        'default'     => '',
       ),
       'testmode' => array(
         'title'       => 'Test mode',
@@ -191,7 +197,7 @@ class WC_Fawry_Gateway extends WC_Payment_Gateway
         "quantity" => $item->get_quantity(),
       ]);
     }
-    
+
     // Add shipping cost
     array_push($items, [
       "productSKU" => __('Shipping', 'fawry'),
@@ -247,15 +253,22 @@ class WC_Fawry_Gateway extends WC_Payment_Gateway
     $resp = json_decode(stripcslashes($_GET['chargeResponse']));
 
     $order = wc_get_order($resp->merchantRefNumber);
+    // If order not found.
+    if (!$order) {
+      wc_add_notice(sprintf(__('Order #%d not found', 'fawry'), $resp->merchantRefNumber), 'error');
+      wp_redirect(wc_get_cart_url());
+      exit;
+    }
+
     $order->payment_complete($resp->fawryRefNumber);
     $order->reduce_order_stock();
 
-    wc_add_notice(__("Your payment for order#{$_GET['merchantRefNum']} has succeeded.", "fawry"));
-  
+    wc_add_notice(__("Your payment for order#{$resp->merchantRefNumber} has succeeded.", "fawry"));
+
     wp_redirect($this->get_return_url($order));
-    die;
+    exit;
   }
-  
+
   /**
    * In case of a failure webhook,
    * @example: https://example.com/wc-api/fawry-payment-failed/
@@ -263,11 +276,21 @@ class WC_Fawry_Gateway extends WC_Payment_Gateway
   public function failed_webhook()
   {
 
-    $order = wc_get_order($_GET['merchantRefNum']);
+    $order_id = filter_input(INPUT_GET, 'merchantRefNum', FILTER_VALIDATE_INT);
+
+    $order = wc_get_order($order_id);
+
+    // If order not found.
+    if (!$order) {
+      wc_add_notice(sprintf(__('Order #%d not found', 'fawry'), $order_id), 'error');
+      wp_redirect(wc_get_cart_url());
+      exit;
+    }
+
     $order->update_status('failed', __('Fawry payment failure', 'fawry'));
 
     wp_redirect($this->get_return_url($order));
 
-    die;
+    exit;
   }
 }
