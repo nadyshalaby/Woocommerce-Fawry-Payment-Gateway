@@ -2,10 +2,10 @@
 
 /*
  * Plugin Name: WooCommerce Fawry Payment Gateway
- * Plugin URI: https://corecave.com/woocommerce/fawry-payment-gateway-plugin.html
+ * Plugin URI: https://github.com/taekunger/Woocommerce-Fawry-Payment-Gateway.git
  * Description: Pay for your Order with any Credit or Debit Card or through Fawry Machines
  * Author: Nady Shalaby
- * Author URI: https://corecave.com
+ * Author URI: https://github.com/taekunger
  * Version: 1.0.0
  */
 
