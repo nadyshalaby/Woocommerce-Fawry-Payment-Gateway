@@ -1,0 +1,80 @@
+# Copyright (C) 2019 Nady Shalaby
+# This file is distributed under the same license as the WooCommerce Fawry Payment Gateway plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Fawry Payment Gateway 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fawry-payment-gateway\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-10-31T02:25:39+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.3.0\n"
+"X-Domain: fawry\n"
+
+#. Plugin Name of the plugin
+msgid "WooCommerce Fawry Payment Gateway"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://corecave.com/woocommerce/fawry-payment-gateway-plugin.html"
+msgstr ""
+
+#. Description of the plugin
+#: inc/class-wc-fawry-gateway.php:26
+msgid "Pay for your Order with any Credit or Debit Card or through Fawry Machines"
+msgstr ""
+
+#. Author of the plugin
+msgid "Nady Shalaby"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://corecave.com"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:25
+msgid "Fawry Payment Gateway"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:77
+msgid "This controls the title which the user sees during checkout."
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:78
+msgid "Fawry Pay"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:84
+msgid "This controls the un paid order expiry which the user created during checkout."
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:91
+msgid "This controls the description which the user sees during checkout."
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:92
+msgid "Pay for your Order with any Credit or Debit Card or through Fawry Machines."
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:107
+msgid "Arabic"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:108
+msgid "English"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:197
+msgid "Shipping"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:229
+msgid "Awaiting fawry payment"
+msgstr ""
+
+#: inc/class-wc-fawry-gateway.php:267
+msgid "Fawry payment failure"
+msgstr ""
