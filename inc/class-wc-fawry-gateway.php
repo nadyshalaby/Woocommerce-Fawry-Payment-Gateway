@@ -206,6 +206,14 @@ class WC_Fawry_Gateway extends WC_Payment_Gateway
       "quantity" => 1,
     ]);
 
+    // Add VAT COST
+    array_push($items, [
+      "productSKU" => __('Tax', 'Applied Taxes'),
+      "description" => __('Applied Taxes Value'),
+      "price" => $order->get_total_tax(),
+      "quantity" => 1,
+    ]);
+
 
     $cart = [
       "successPageUrl" => home_url("/wc-api/fawry-payment-success/"),
